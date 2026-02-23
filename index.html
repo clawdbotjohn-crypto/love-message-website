@@ -6,7 +6,7 @@
 <title>💕 A Message For You</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;700&family=Poppins:wght@300;400;700&family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -339,6 +339,42 @@
     box-shadow: 0 20px 60px rgba(21, 101, 192, 0.25), 0 0 0 1px rgba(255,255,255,0.5) inset;
   }
 
+  /* ── Font Styles ── */
+  body.font-classic .recipient-name,
+  body.font-classic #form-page h1 { font-family: 'Great Vibes', cursive; }
+  body.font-classic { font-family: 'Lato', sans-serif; }
+  body.font-classic .form-group select,
+  body.font-classic .form-group input,
+  body.font-classic .form-group textarea,
+  body.font-classic .btn { font-family: 'Lato', sans-serif; }
+
+  body.font-elegant .recipient-name,
+  body.font-elegant #form-page h1 { font-family: 'Playfair Display', serif; }
+  body.font-elegant { font-family: 'Raleway', sans-serif; }
+  body.font-elegant .form-group select,
+  body.font-elegant .form-group input,
+  body.font-elegant .form-group textarea,
+  body.font-elegant .btn { font-family: 'Raleway', sans-serif; }
+  body.font-elegant .love-message { font-family: 'Raleway', sans-serif; }
+
+  body.font-modern .recipient-name,
+  body.font-modern #form-page h1 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+  body.font-modern { font-family: 'Poppins', sans-serif; }
+  body.font-modern .form-group select,
+  body.font-modern .form-group input,
+  body.font-modern .form-group textarea,
+  body.font-modern .btn { font-family: 'Poppins', sans-serif; }
+  body.font-modern .love-message { font-family: 'Poppins', sans-serif; }
+
+  body.font-playful .recipient-name,
+  body.font-playful #form-page h1 { font-family: 'Pacifico', cursive; }
+  body.font-playful { font-family: 'Quicksand', sans-serif; }
+  body.font-playful .form-group select,
+  body.font-playful .form-group input,
+  body.font-playful .form-group textarea,
+  body.font-playful .btn { font-family: 'Quicksand', sans-serif; }
+  body.font-playful .love-message { font-family: 'Quicksand', sans-serif; }
+
   @media (max-width: 480px) {
     .card { padding: 2rem 1.5rem; }
     #form-page h1 { font-size: 2.2rem; }
@@ -383,6 +419,15 @@
           <option value="ocean">🌊 Ocean</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="font">Font</label>
+        <select id="font">
+          <option value="classic">✒️ Classic</option>
+          <option value="elegant">🎩 Elegant</option>
+          <option value="modern">📱 Modern</option>
+          <option value="playful">🎈 Playful</option>
+        </select>
+      </div>
       <button type="submit" class="btn">💕 Create Message</button>
     </form>
   </div>
@@ -407,6 +452,7 @@
   const msgInput    = document.getElementById('message-input');
   const themeSelect = document.getElementById('theme');
   const colorSelect = document.getElementById('color');
+  const fontSelect  = document.getElementById('font');
   const dispName    = document.getElementById('display-name');
   const dispMsg     = document.getElementById('display-message');
   const createLink  = document.getElementById('create-own-link');
@@ -419,6 +465,7 @@
     flowers: ['🌸', '🌺', '🌷', '💐', '🌹', '🌻', '🌼']
   };
   const COLORS = ['romantic', 'midnight', 'sunset', 'ocean'];
+  const FONTS = ['classic', 'elegant', 'modern', 'playful'];
   let currentTheme = 'hearts';
   let emojisInterval = null;
 
@@ -467,14 +514,24 @@
   // ── Color scheme ──
   function applyColor(color) {
     const c = COLORS.includes(color) ? color : 'romantic';
-    document.body.className = 'color-' + c;
+    // Preserve font class
+    const fontClass = Array.from(document.body.classList).find(cls => cls.startsWith('font-')) || 'font-classic';
+    document.body.className = 'color-' + c + ' ' + fontClass;
+  }
+
+  // ── Font scheme ──
+  function applyFont(font) {
+    const f = FONTS.includes(font) ? font : 'classic';
+    // Preserve color class
+    const colorClass = Array.from(document.body.classList).find(cls => cls.startsWith('color-')) || 'color-romantic';
+    document.body.className = colorClass + ' font-' + f;
   }
 
   // ── URL helpers ──
-  function encodeMsg(name, message, theme, color) {
+  function encodeMsg(name, message, theme, color, font) {
     const n = btoa(unescape(encodeURIComponent(name)));
     const m = btoa(unescape(encodeURIComponent(message)));
-    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m) + '&t=' + encodeURIComponent(theme) + '&c=' + encodeURIComponent(color);
+    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m) + '&t=' + encodeURIComponent(theme) + '&c=' + encodeURIComponent(color) + '&f=' + encodeURIComponent(font);
   }
 
   function decodeParam(b64) {
@@ -489,19 +546,22 @@
     const m = p.get('m');
     const t = p.get('t') || 'hearts';
     const c = p.get('c') || 'romantic';
+    const f = p.get('f') || 'classic';
     if (!n || !m) return null;
     const name = decodeParam(n);
     const msg  = decodeParam(m);
     if (!name || !msg) return null;
     const theme = THEMES[t] ? t : 'hearts';
     const color = COLORS.includes(c) ? c : 'romantic';
-    return { name, message: msg, theme, color };
+    const font = FONTS.includes(f) ? f : 'classic';
+    return { name, message: msg, theme, color, font };
   }
 
   // ── Show message ──
-  function showMessage(name, message, theme, color) {
+  function showMessage(name, message, theme, color, font) {
     currentTheme = theme || 'hearts';
     applyColor(color || 'romantic');
+    applyFont(font || 'classic');
     formPage.style.display = 'none';
     messagePage.style.display = 'block';
     dispName.textContent = name;
@@ -523,6 +583,7 @@
     history.replaceState(null, '', window.location.pathname);
     currentTheme = 'hearts';
     applyColor('romantic');
+    applyFont('classic');
     startEmojis();
     formPage.style.animation = 'none';
     formPage.offsetHeight;
@@ -536,12 +597,13 @@
     const msg   = msgInput.value.trim();
     const theme = themeSelect.value;
     const color = colorSelect.value;
+    const font  = fontSelect.value;
     if (!name || !msg) return;
 
-    const qs = encodeMsg(name, msg, theme, color);
+    const qs = encodeMsg(name, msg, theme, color, font);
     history.pushState(null, '', '?' + qs);
 
-    showMessage(name, msg, theme, color);
+    showMessage(name, msg, theme, color, font);
   });
 
   createLink.addEventListener('click', function(e) {
@@ -554,19 +616,25 @@
     applyColor(colorSelect.value);
   });
 
+  // Live preview font on form
+  fontSelect.addEventListener('change', function() {
+    applyFont(fontSelect.value);
+  });
+
   // Handle back/forward
   window.addEventListener('popstate', function() {
     const params = getParams();
-    if (params) showMessage(params.name, params.message, params.theme, params.color);
+    if (params) showMessage(params.name, params.message, params.theme, params.color, params.font);
     else showForm();
   });
 
   // ── Init ──
   const params = getParams();
   if (params) {
-    showMessage(params.name, params.message, params.theme, params.color);
+    showMessage(params.name, params.message, params.theme, params.color, params.font);
   } else {
     applyColor('romantic');
+    applyFont('classic');
     startEmojis();
   }
 })();
