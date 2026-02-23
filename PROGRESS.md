@@ -29,7 +29,7 @@ Single-page web app:
 ## P2: Polish
 - [ ] Add sound/music option
 - [x] Multiple animation themes (hearts, stars, flowers)
-- [ ] Font selection
+- [x] Font selection
 - [x] Background color options
 
 ## P3: Nice-to-Have
