@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💕 A Message For You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #f06292 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    color: #4a1942;
+  }
+
+  /* ── Hearts Background ── */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -60px;
+    font-size: 24px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+    10%  { opacity: 0.8; }
+    50%  { opacity: 0.6; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(-110vh) rotate(360deg) scale(0.5); opacity: 0; }
+  }
+
+  /* ── Sparkle Particles ── */
+  .sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: sparkleAnim 2s ease-in-out infinite;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+  }
+
+  @keyframes sparkleAnim {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* ── Container ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 560px;
+    padding: 2rem;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 20px 60px rgba(180, 50, 100, 0.25), 0 0 0 1px rgba(255,255,255,0.5) inset;
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Form Page ── */
+  #form-page h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem;
+    color: #c2185b;
+    margin-bottom: 0.3rem;
+  }
+
+  #form-page .subtitle {
+    font-weight: 300;
+    font-size: 1rem;
+    color: #8e4573;
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ad1457;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #f8bbd0;
+    border-radius: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #4a1942;
+    background: rgba(255,255,255,0.7);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #ec407a;
+    box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.2);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ec407a, #c2185b);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 20px rgba(194, 24, 91, 0.4);
+    letter-spacing: 0.03em;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(194, 24, 91, 0.5);
+  }
+
+  .btn:active { transform: translateY(0); }
+
+  /* ── Message Display Page ── */
+  #message-page { display: none; }
+
+  .recipient-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.2rem;
+    color: #c2185b;
+    margin-bottom: 0.2rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(194, 24, 91, 0.15);
+  }
+
+  .message-label {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #ad1457;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .love-message {
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #4a1942;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+    position: relative;
+  }
+
+  .love-message::before,
+  .love-message::after {
+    content: '♥';
+    color: #f48fb1;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    margin: 0 0.4rem;
+  }
+
+  .glow-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ec407a, transparent);
+    border: none;
+    margin: 1.5rem auto;
+    border-radius: 2px;
+  }
+
+  .create-own {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #ec407a;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+
+  .create-own:hover { color: #c2185b; text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .card { padding: 2rem 1.5rem; }
+    #form-page h1 { font-size: 2.2rem; }
+    .recipient-name { font-size: 2.5rem; }
+    .love-message { font-size: 1.1rem; }
+    .container { width: 95%; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<div class="container">
+  <!-- FORM PAGE -->
+  <div class="card" id="form-page">
+    <h1>Send Some Love</h1>
+    <p class="subtitle">Create a beautiful message for someone special</p>
+    <form id="love-form" autocomplete="off">
+      <div class="form-group">
+        <label for="name-input">Recipient's Name</label>
+        <input type="text" id="name-input" placeholder="e.g. Sarah" required maxlength="50">
+      </div>
+      <div class="form-group">
+        <label for="message-input">Your Message</label>
+        <textarea id="message-input" placeholder="Write something from the heart…" required maxlength="500"></textarea>
+      </div>
+      <button type="submit" class="btn">💕 Create Message</button>
+    </form>
+  </div>
+
+  <!-- MESSAGE DISPLAY PAGE -->
+  <div class="card" id="message-page">
+    <p class="message-label">a message for</p>
+    <h2 class="recipient-name" id="display-name"></h2>
+    <hr class="glow-divider">
+    <p class="love-message" id="display-message"></p>
+    <hr class="glow-divider">
+    <a class="create-own" id="create-own-link">💌 Create Your Own</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const formPage    = document.getElementById('form-page');
+  const messagePage = document.getElementById('message-page');
+  const form        = document.getElementById('love-form');
+  const nameInput   = document.getElementById('name-input');
+  const msgInput    = document.getElementById('message-input');
+  const dispName    = document.getElementById('display-name');
+  const dispMsg     = document.getElementById('display-message');
+  const createLink  = document.getElementById('create-own-link');
+  const heartsBg    = document.getElementById('hearts-bg');
+
+  // ── Hearts ──
+  const heartChars = ['❤', '💕', '💗', '💖', '♥', '💘', '💝'];
+  let heartsInterval = null;
+
+  function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart';
+    el.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (16 + Math.random() * 24) + 'px';
+    el.style.animationDuration = (6 + Math.random() * 6) + 's';
+    el.style.animationDelay = '0s';
+    heartsBg.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+
+  function startHearts() {
+    if (heartsInterval) return;
+    // Seed a few immediately
+    for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 300);
+    heartsInterval = setInterval(spawnHeart, 700);
+  }
+
+  function stopHearts() {
+    if (heartsInterval) { clearInterval(heartsInterval); heartsInterval = null; }
+  }
+
+  // ── Sparkles on message page ──
+  function spawnSparkles(container) {
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('span');
+      s.className = 'sparkle';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      container.appendChild(s);
+    }
+  }
+
+  // ── URL helpers ──
+  function encodeMsg(name, message) {
+    const n = btoa(unescape(encodeURIComponent(name)));
+    const m = btoa(unescape(encodeURIComponent(message)));
+    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m);
+  }
+
+  function decodeParam(b64) {
+    try {
+      return decodeURIComponent(escape(atob(b64)));
+    } catch(e) { return null; }
+  }
+
+  function getParams() {
+    const p = new URLSearchParams(window.location.search);
+    const n = p.get('n');
+    const m = p.get('m');
+    if (!n || !m) return null;
+    const name = decodeParam(n);
+    const msg  = decodeParam(m);
+    if (!name || !msg) return null;
+    return { name, message: msg };
+  }
+
+  // ── Show message ──
+  function showMessage(name, message) {
+    formPage.style.display = 'none';
+    messagePage.style.display = 'block';
+    dispName.textContent = name;
+    // Set text without the ::before/::after pseudo-elements' content
+    dispMsg.textContent = message;
+    startHearts();
+    spawnSparkles(messagePage);
+    // Re-trigger animation
+    messagePage.style.animation = 'none';
+    messagePage.offsetHeight; // reflow
+    messagePage.style.animation = '';
+  }
+
+  // ── Show form ──
+  function showForm() {
+    messagePage.style.display = 'none';
+    formPage.style.display = 'block';
+    stopHearts();
+    // Clear sparkles
+    messagePage.querySelectorAll('.sparkle').forEach(s => s.remove());
+    // Clean URL
+    history.replaceState(null, '', window.location.pathname);
+    // Re-trigger animation
+    formPage.style.animation = 'none';
+    formPage.offsetHeight;
+    formPage.style.animation = '';
+  }
+
+  // ── Events ──
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const msg  = msgInput.value.trim();
+    if (!name || !msg) return;
+
+    // Update URL
+    const qs = encodeMsg(name, msg);
+    history.pushState(null, '', '?' + qs);
+
+    showMessage(name, msg);
+  });
+
+  createLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    showForm();
+  });
+
+  // Handle back/forward
+  window.addEventListener('popstate', function() {
+    const params = getParams();
+    if (params) showMessage(params.name, params.message);
+    else showForm();
+  });
+
+  // ── Init ──
+  const params = getParams();
+  if (params) {
+    showMessage(params.name, params.message);
+  } else {
+    // Subtle hearts on form too
+    startHearts();
+  }
+})();
+</script>
+</body>
+</html>
