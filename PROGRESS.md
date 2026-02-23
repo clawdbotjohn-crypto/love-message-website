@@ -33,6 +33,7 @@ Single-page web app:
 - [ ] Background color options
 
 ## P3: Nice-to-Have
+- [x] Deploy to GitHub Pages (https://clawdbotjohn-crypto.github.io/love-message-website/)
 - [ ] Deploy to Azure SWA
 - [ ] Custom domain option
 
