@@ -30,7 +30,7 @@ Single-page web app:
 - [ ] Add sound/music option
 - [x] Multiple animation themes (hearts, stars, flowers)
 - [ ] Font selection
-- [ ] Background color options
+- [x] Background color options
 
 ## P3: Nice-to-Have
 - [x] Deploy to GitHub Pages (https://clawdbotjohn-crypto.github.io/love-message-website/)

@@ -1,8 +1,8 @@
 ## Last Update
-- **Timestamp:** 2026-02-23T01:13:20-08:00
-- **Task:** Add animation themes
+- **Timestamp:** 2026-02-23T01:17:39-08:00
+- **Task:** Add background colors
 - **Status:** COMPLETE
-- **Summary:** Added theme selector dropdown (hearts/stars/flowers) to the form. Theme is stored in URL params (`&t=hearts|stars|flowers`) and controls which emoji set is used for floating animations. Defaults to hearts.
+- **Summary:** Added 4 color scheme options (Romantic, Midnight, Sunset, Ocean) with a dropdown selector, live preview on the form, URL param persistence (&c=), and full themed styling for each scheme including dark mode for Midnight.
 - **Files Changed:** index.html, PROGRESS.md
-- **Committed:** Yes (ea4cb61, pushed to master)
-- **Verified:** Code review of all JS paths — theme flows from select → URL param → showMessage → emoji spawner. All three theme emoji arrays defined. Backward compatible (no `t` param defaults to hearts).
+- **Committed:** Yes (b7d193a, pushed to master)
+- **Verified:** Code review of all changes — CSS classes for 4 schemes, dropdown added to form, JS reads/writes &c= param, applyColor() sets body class, live preview on change, popstate handles color, romantic default applied on init.
