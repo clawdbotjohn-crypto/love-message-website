@@ -13,12 +13,10 @@
   body {
     font-family: 'Lato', sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #f06292 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow-x: hidden;
-    color: #4a1942;
   }
 
   /* ── Hearts Background ── */
@@ -232,6 +230,115 @@
   .create-own:hover { color: #c2185b; text-decoration: underline; }
 
   /* ── Responsive ── */
+  /* ── Color Schemes ── */
+  body.color-romantic {
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #f06292 100%);
+    color: #4a1942;
+  }
+  body.color-midnight {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #533483 100%);
+    color: #e0d7f5;
+  }
+  body.color-midnight .card {
+    background: rgba(30, 30, 60, 0.85);
+    box-shadow: 0 20px 60px rgba(83, 52, 131, 0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
+  }
+  body.color-midnight #form-page h1,
+  body.color-midnight .recipient-name { color: #b388ff; }
+  body.color-midnight #form-page .subtitle,
+  body.color-midnight .message-label { color: #9e8cc7; }
+  body.color-midnight .form-group label { color: #b388ff; }
+  body.color-midnight .form-group select,
+  body.color-midnight .form-group input,
+  body.color-midnight .form-group textarea {
+    border-color: #533483;
+    background: rgba(26, 26, 46, 0.7);
+    color: #e0d7f5;
+  }
+  body.color-midnight .form-group select:focus,
+  body.color-midnight .form-group input:focus,
+  body.color-midnight .form-group textarea:focus {
+    border-color: #b388ff;
+    box-shadow: 0 0 0 3px rgba(179, 136, 255, 0.2);
+  }
+  body.color-midnight .btn {
+    background: linear-gradient(135deg, #7c4dff, #533483);
+    box-shadow: 0 6px 20px rgba(83, 52, 131, 0.5);
+  }
+  body.color-midnight .btn:hover { box-shadow: 0 10px 30px rgba(83, 52, 131, 0.6); }
+  body.color-midnight .love-message { color: #e0d7f5; }
+  body.color-midnight .love-message::before,
+  body.color-midnight .love-message::after { color: #b388ff; }
+  body.color-midnight .glow-divider { background: linear-gradient(90deg, transparent, #7c4dff, transparent); }
+  body.color-midnight .create-own { color: #b388ff; }
+  body.color-midnight .create-own:hover { color: #d1c4e9; }
+
+  body.color-sunset {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 30%, #fad0c4 60%, #ffecd2 100%);
+    color: #5d3a3a;
+  }
+  body.color-sunset #form-page h1,
+  body.color-sunset .recipient-name { color: #e65100; }
+  body.color-sunset #form-page .subtitle,
+  body.color-sunset .message-label { color: #bf360c; }
+  body.color-sunset .form-group label { color: #e65100; }
+  body.color-sunset .form-group select,
+  body.color-sunset .form-group input,
+  body.color-sunset .form-group textarea { border-color: #ffab91; }
+  body.color-sunset .form-group select:focus,
+  body.color-sunset .form-group input:focus,
+  body.color-sunset .form-group textarea:focus {
+    border-color: #ff6e40;
+    box-shadow: 0 0 0 3px rgba(255, 110, 64, 0.2);
+  }
+  body.color-sunset .btn {
+    background: linear-gradient(135deg, #ff6e40, #e65100);
+    box-shadow: 0 6px 20px rgba(230, 81, 0, 0.4);
+  }
+  body.color-sunset .btn:hover { box-shadow: 0 10px 30px rgba(230, 81, 0, 0.5); }
+  body.color-sunset .love-message { color: #5d3a3a; }
+  body.color-sunset .love-message::before,
+  body.color-sunset .love-message::after { color: #ff8a65; }
+  body.color-sunset .glow-divider { background: linear-gradient(90deg, transparent, #ff6e40, transparent); }
+  body.color-sunset .create-own { color: #ff6e40; }
+  body.color-sunset .create-own:hover { color: #e65100; }
+  body.color-sunset .card {
+    box-shadow: 0 20px 60px rgba(230, 81, 0, 0.2), 0 0 0 1px rgba(255,255,255,0.5) inset;
+  }
+
+  body.color-ocean {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #66a6ff 60%, #89f7fe 100%);
+    color: #1a237e;
+  }
+  body.color-ocean #form-page h1,
+  body.color-ocean .recipient-name { color: #1565c0; }
+  body.color-ocean #form-page .subtitle,
+  body.color-ocean .message-label { color: #1976d2; }
+  body.color-ocean .form-group label { color: #1565c0; }
+  body.color-ocean .form-group select,
+  body.color-ocean .form-group input,
+  body.color-ocean .form-group textarea { border-color: #90caf9; }
+  body.color-ocean .form-group select:focus,
+  body.color-ocean .form-group input:focus,
+  body.color-ocean .form-group textarea:focus {
+    border-color: #42a5f5;
+    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.2);
+  }
+  body.color-ocean .btn {
+    background: linear-gradient(135deg, #42a5f5, #1565c0);
+    box-shadow: 0 6px 20px rgba(21, 101, 192, 0.4);
+  }
+  body.color-ocean .btn:hover { box-shadow: 0 10px 30px rgba(21, 101, 192, 0.5); }
+  body.color-ocean .love-message { color: #1a237e; }
+  body.color-ocean .love-message::before,
+  body.color-ocean .love-message::after { color: #64b5f6; }
+  body.color-ocean .glow-divider { background: linear-gradient(90deg, transparent, #42a5f5, transparent); }
+  body.color-ocean .create-own { color: #42a5f5; }
+  body.color-ocean .create-own:hover { color: #1565c0; }
+  body.color-ocean .card {
+    box-shadow: 0 20px 60px rgba(21, 101, 192, 0.25), 0 0 0 1px rgba(255,255,255,0.5) inset;
+  }
+
   @media (max-width: 480px) {
     .card { padding: 2rem 1.5rem; }
     #form-page h1 { font-size: 2.2rem; }
@@ -267,6 +374,15 @@
           <option value="flowers">🌸 Flowers</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="color">Color</label>
+        <select id="color">
+          <option value="romantic">💗 Romantic</option>
+          <option value="midnight">🌙 Midnight</option>
+          <option value="sunset">🌅 Sunset</option>
+          <option value="ocean">🌊 Ocean</option>
+        </select>
+      </div>
       <button type="submit" class="btn">💕 Create Message</button>
     </form>
   </div>
@@ -290,6 +406,7 @@
   const nameInput   = document.getElementById('name-input');
   const msgInput    = document.getElementById('message-input');
   const themeSelect = document.getElementById('theme');
+  const colorSelect = document.getElementById('color');
   const dispName    = document.getElementById('display-name');
   const dispMsg     = document.getElementById('display-message');
   const createLink  = document.getElementById('create-own-link');
@@ -301,6 +418,7 @@
     stars:   ['⭐', '✨', '🌟', '💫', '✦', '★'],
     flowers: ['🌸', '🌺', '🌷', '💐', '🌹', '🌻', '🌼']
   };
+  const COLORS = ['romantic', 'midnight', 'sunset', 'ocean'];
   let currentTheme = 'hearts';
   let emojisInterval = null;
 
@@ -346,11 +464,17 @@
     }
   }
 
+  // ── Color scheme ──
+  function applyColor(color) {
+    const c = COLORS.includes(color) ? color : 'romantic';
+    document.body.className = 'color-' + c;
+  }
+
   // ── URL helpers ──
-  function encodeMsg(name, message, theme) {
+  function encodeMsg(name, message, theme, color) {
     const n = btoa(unescape(encodeURIComponent(name)));
     const m = btoa(unescape(encodeURIComponent(message)));
-    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m) + '&t=' + encodeURIComponent(theme);
+    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m) + '&t=' + encodeURIComponent(theme) + '&c=' + encodeURIComponent(color);
   }
 
   function decodeParam(b64) {
@@ -364,17 +488,20 @@
     const n = p.get('n');
     const m = p.get('m');
     const t = p.get('t') || 'hearts';
+    const c = p.get('c') || 'romantic';
     if (!n || !m) return null;
     const name = decodeParam(n);
     const msg  = decodeParam(m);
     if (!name || !msg) return null;
     const theme = THEMES[t] ? t : 'hearts';
-    return { name, message: msg, theme };
+    const color = COLORS.includes(c) ? c : 'romantic';
+    return { name, message: msg, theme, color };
   }
 
   // ── Show message ──
-  function showMessage(name, message, theme) {
+  function showMessage(name, message, theme, color) {
     currentTheme = theme || 'hearts';
+    applyColor(color || 'romantic');
     formPage.style.display = 'none';
     messagePage.style.display = 'block';
     dispName.textContent = name;
@@ -395,6 +522,7 @@
     messagePage.querySelectorAll('.sparkle').forEach(s => s.remove());
     history.replaceState(null, '', window.location.pathname);
     currentTheme = 'hearts';
+    applyColor('romantic');
     startEmojis();
     formPage.style.animation = 'none';
     formPage.offsetHeight;
@@ -407,12 +535,13 @@
     const name  = nameInput.value.trim();
     const msg   = msgInput.value.trim();
     const theme = themeSelect.value;
+    const color = colorSelect.value;
     if (!name || !msg) return;
 
-    const qs = encodeMsg(name, msg, theme);
+    const qs = encodeMsg(name, msg, theme, color);
     history.pushState(null, '', '?' + qs);
 
-    showMessage(name, msg, theme);
+    showMessage(name, msg, theme, color);
   });
 
   createLink.addEventListener('click', function(e) {
@@ -420,18 +549,24 @@
     showForm();
   });
 
+  // Live preview color on form
+  colorSelect.addEventListener('change', function() {
+    applyColor(colorSelect.value);
+  });
+
   // Handle back/forward
   window.addEventListener('popstate', function() {
     const params = getParams();
-    if (params) showMessage(params.name, params.message, params.theme);
+    if (params) showMessage(params.name, params.message, params.theme, params.color);
     else showForm();
   });
 
   // ── Init ──
   const params = getParams();
   if (params) {
-    showMessage(params.name, params.message, params.theme);
+    showMessage(params.name, params.message, params.theme, params.color);
   } else {
+    applyColor('romantic');
     startEmojis();
   }
 })();
