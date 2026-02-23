@@ -119,6 +119,7 @@
     margin-bottom: 0.4rem;
   }
 
+  .form-group select,
   .form-group input,
   .form-group textarea {
     width: 100%;
@@ -133,6 +134,7 @@
     outline: none;
   }
 
+  .form-group select:focus,
   .form-group input:focus,
   .form-group textarea:focus {
     border-color: #ec407a;
@@ -257,6 +259,14 @@
         <label for="message-input">Your Message</label>
         <textarea id="message-input" placeholder="Write something from the heart…" required maxlength="500"></textarea>
       </div>
+      <div class="form-group">
+        <label for="theme">Theme</label>
+        <select id="theme">
+          <option value="hearts">💖 Hearts</option>
+          <option value="stars">✨ Stars</option>
+          <option value="flowers">🌸 Flowers</option>
+        </select>
+      </div>
       <button type="submit" class="btn">💕 Create Message</button>
     </form>
   </div>
@@ -279,19 +289,30 @@
   const form        = document.getElementById('love-form');
   const nameInput   = document.getElementById('name-input');
   const msgInput    = document.getElementById('message-input');
+  const themeSelect = document.getElementById('theme');
   const dispName    = document.getElementById('display-name');
   const dispMsg     = document.getElementById('display-message');
   const createLink  = document.getElementById('create-own-link');
   const heartsBg    = document.getElementById('hearts-bg');
 
-  // ── Hearts ──
-  const heartChars = ['❤', '💕', '💗', '💖', '♥', '💘', '💝'];
-  let heartsInterval = null;
+  // ── Theme Emoji Sets ──
+  const THEMES = {
+    hearts:  ['💖', '💗', '💘', '💕', '💝', '❤', '♥'],
+    stars:   ['⭐', '✨', '🌟', '💫', '✦', '★'],
+    flowers: ['🌸', '🌺', '🌷', '💐', '🌹', '🌻', '🌼']
+  };
+  let currentTheme = 'hearts';
+  let emojisInterval = null;
 
-  function spawnHeart() {
+  function getThemeEmojis() {
+    return THEMES[currentTheme] || THEMES.hearts;
+  }
+
+  function spawnEmoji() {
+    const chars = getThemeEmojis();
     const el = document.createElement('span');
     el.className = 'heart';
-    el.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    el.textContent = chars[Math.floor(Math.random() * chars.length)];
     el.style.left = Math.random() * 100 + '%';
     el.style.fontSize = (16 + Math.random() * 24) + 'px';
     el.style.animationDuration = (6 + Math.random() * 6) + 's';
@@ -300,15 +321,16 @@
     el.addEventListener('animationend', () => el.remove());
   }
 
-  function startHearts() {
-    if (heartsInterval) return;
-    // Seed a few immediately
-    for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 300);
-    heartsInterval = setInterval(spawnHeart, 700);
+  function startEmojis() {
+    if (emojisInterval) return;
+    for (let i = 0; i < 8; i++) setTimeout(spawnEmoji, i * 300);
+    emojisInterval = setInterval(spawnEmoji, 700);
   }
 
-  function stopHearts() {
-    if (heartsInterval) { clearInterval(heartsInterval); heartsInterval = null; }
+  function stopEmojis() {
+    if (emojisInterval) { clearInterval(emojisInterval); emojisInterval = null; }
+    // Clear existing floating emojis
+    heartsBg.querySelectorAll('.heart').forEach(h => h.remove());
   }
 
   // ── Sparkles on message page ──
@@ -325,10 +347,10 @@
   }
 
   // ── URL helpers ──
-  function encodeMsg(name, message) {
+  function encodeMsg(name, message, theme) {
     const n = btoa(unescape(encodeURIComponent(name)));
     const m = btoa(unescape(encodeURIComponent(message)));
-    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m);
+    return 'n=' + encodeURIComponent(n) + '&m=' + encodeURIComponent(m) + '&t=' + encodeURIComponent(theme);
   }
 
   function decodeParam(b64) {
@@ -341,25 +363,27 @@
     const p = new URLSearchParams(window.location.search);
     const n = p.get('n');
     const m = p.get('m');
+    const t = p.get('t') || 'hearts';
     if (!n || !m) return null;
     const name = decodeParam(n);
     const msg  = decodeParam(m);
     if (!name || !msg) return null;
-    return { name, message: msg };
+    const theme = THEMES[t] ? t : 'hearts';
+    return { name, message: msg, theme };
   }
 
   // ── Show message ──
-  function showMessage(name, message) {
+  function showMessage(name, message, theme) {
+    currentTheme = theme || 'hearts';
     formPage.style.display = 'none';
     messagePage.style.display = 'block';
     dispName.textContent = name;
-    // Set text without the ::before/::after pseudo-elements' content
     dispMsg.textContent = message;
-    startHearts();
+    stopEmojis();
+    startEmojis();
     spawnSparkles(messagePage);
-    // Re-trigger animation
     messagePage.style.animation = 'none';
-    messagePage.offsetHeight; // reflow
+    messagePage.offsetHeight;
     messagePage.style.animation = '';
   }
 
@@ -367,12 +391,11 @@
   function showForm() {
     messagePage.style.display = 'none';
     formPage.style.display = 'block';
-    stopHearts();
-    // Clear sparkles
+    stopEmojis();
     messagePage.querySelectorAll('.sparkle').forEach(s => s.remove());
-    // Clean URL
     history.replaceState(null, '', window.location.pathname);
-    // Re-trigger animation
+    currentTheme = 'hearts';
+    startEmojis();
     formPage.style.animation = 'none';
     formPage.offsetHeight;
     formPage.style.animation = '';
@@ -381,15 +404,15 @@
   // ── Events ──
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const name = nameInput.value.trim();
-    const msg  = msgInput.value.trim();
+    const name  = nameInput.value.trim();
+    const msg   = msgInput.value.trim();
+    const theme = themeSelect.value;
     if (!name || !msg) return;
 
-    // Update URL
-    const qs = encodeMsg(name, msg);
+    const qs = encodeMsg(name, msg, theme);
     history.pushState(null, '', '?' + qs);
 
-    showMessage(name, msg);
+    showMessage(name, msg, theme);
   });
 
   createLink.addEventListener('click', function(e) {
@@ -400,17 +423,16 @@
   // Handle back/forward
   window.addEventListener('popstate', function() {
     const params = getParams();
-    if (params) showMessage(params.name, params.message);
+    if (params) showMessage(params.name, params.message, params.theme);
     else showForm();
   });
 
   // ── Init ──
   const params = getParams();
   if (params) {
-    showMessage(params.name, params.message);
+    showMessage(params.name, params.message, params.theme);
   } else {
-    // Subtle hearts on form too
-    startHearts();
+    startEmojis();
   }
 })();
 </script>
