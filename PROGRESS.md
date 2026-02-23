@@ -28,7 +28,7 @@ Single-page web app:
 
 ## P2: Polish
 - [ ] Add sound/music option
-- [ ] Multiple animation themes (hearts, stars, flowers)
+- [x] Multiple animation themes (hearts, stars, flowers)
 - [ ] Font selection
 - [ ] Background color options
 
